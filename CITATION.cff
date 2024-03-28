@@ -5,7 +5,7 @@ authors:
   given-names: "Rodolfo"
   orcid: "https://orcid.org/0000-0001-9702-6204"
 title: "Fasta_Seq_Plot_Bash"
-version: 1.0.1
-doi: 10.5281/zenodo.10892504
-date-released: 2024-03-28
+version: "1.0.1"
+doi: "10.5281/zenodo.10892504"
+date-released: "2024-03-28"
 url: "https://github.com/raramayo/Fasta_Seq_Plot_Bash"
