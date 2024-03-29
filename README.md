@@ -1,5 +1,3 @@
-**[![DOI](https://zenodo.org/badge/779029322.svg)](https://zenodo.org/doi/10.5281/zenodo.10892498)**
-
 # **Fasta_Seq_Plot_Bash**
 
 ## **Motivation**
@@ -26,18 +24,18 @@ General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program. If not,
 see <https://www.gnu.org/licenses/>.
 
-SCRIPT_NAME:                       Fasta_Seq_Plot_v1.0.0.sh
-SCRIPT_VERSION:                    1.0.0
+SCRIPT_NAME:                       Fasta_Seq_Plot_v1.0.2..sh
+SCRIPT_VERSION:                    1.0.2
 
-USAGE: Fasta_Seq_Plot_v1.0.0.sh
+USAGE: Fasta_Seq_Plot_v1.0.2..sh
        -p Homo_sapiens.GRCh38.pep.all.fa               # REQUIRED if -t Not Provided (Proteins File - Proteome)
        -t Homo_sapiens.GRCh38.cds.all.fa               # REQUIRED if -p Not Provided (Transcripts File - Transcriptome)
        -n 'Homo sapiens'                               # REQUIRED (Species Name)
-       -z TMPDIR Location                              # OPTIONAL (default=0='Normal Run')
+       -z TMPDIR Location                              # OPTIONAL (default=0='TMPDIR Run')
 
 TYPICAL COMMANDS:
-                                   Fasta_Seq_Plot_v1.0.0.sh -p Homo_sapiens.GRCh38.pep.all.fa -n 'Homo sapiens'
-                                   Fasta_Seq_Plot_v1.0.0.sh -t Homo_sapiens.GRCh38.cds.all.fa -n 'Homo sapiens'
+                                   Fasta_Seq_Plot_v1.0.2..sh -p Homo_sapiens.GRCh38.pep.all.fa -n 'Homo sapiens'
+                                   Fasta_Seq_Plot_v1.0.2..sh -t Homo_sapiens.GRCh38.cds.all.fa -n 'Homo sapiens'
 
 INPUT01:          -p FLAG          REQUIRED input ONLY if the '-t' flag associated file is not provided
 INPUT01_FORMAT:                    Proteome Fasta File
@@ -54,16 +52,18 @@ INPUT03_NOTES:                     The text should correspond to the species nam
 INPUT03_NOTES:                     If the text provided is composed on more than one word (e.g., Genus species), then the text must be within single or double quotes
 
 INPUT04:          -z FLAG          OPTIONAL input
-INPUT04_FORMAT:                    Numeric: 0 == Normal Run | 1 == TMPDIR Run
-INPUT04_DEFAULT:                   0 == Normal Run
-INPUT04_NOTES:                     0 Processes the data in the same directory where the script is being run
-INPUT04_NOTES:                     1 Processes the data in the /var/folders/ct/4v6y_c6s2tl1ns6t2yz3qmd80000gn/T/ directory of the computer used or of the node assigned by the SuperComputer scheduler
-INPUT04_NOTES:                     Processing the data in the /var/folders/ct/4v6y_c6s2tl1ns6t2yz3qmd80000gn/T/ directory of the node assigned by the SuperComputer scheduler reduces the possibility of file error generation due to network traffic
+INPUT04_FORMAT:                    Numeric: 0 == TMPDIR Run | 1 == Normal Run
+INPUT04_DEFAULT:                   0 == TMPDIR Run
+INPUT04_NOTES:                     0 Processes the data in the $TMPDIR directory of the computer used or of the node assigned by the SuperComputer scheduler
+INPUT04_NOTES:                     Processing the data in the $TMPDIR directory of the node assigned by the SuperComputer scheduler reduces the possibility of file error generation due to network traffic
+INPUT04_NOTES:                     1 Processes the data in the same directory where the script is being run
 
 DEPENDENCIES:                      GNU AWK:       Required (https://www.gnu.org/software/gawk/)
                                    GNU COREUTILS: Required (https://www.gnu.org/software/coreutils/)
                                    datamash:      Required (http://www.gnu.org/software/datamash)
                                    R:             Required (https://www.r-project.org/)
+                                   R - ggplot2:   Required (https://github.com/tidyverse/ggplot2)
+                                   R - ggeasy:    Required (https://github.com/jonocarroll/ggeasy)
                                                   Assumes that the packages tidyverse, ggplot2, and ggeasy are already installed
 
 Author:                            Rodolfo Aramayo

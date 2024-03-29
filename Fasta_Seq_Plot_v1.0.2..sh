@@ -41,7 +41,7 @@ USAGE: $(basename ${0})
        -p Homo_sapiens.GRCh38.pep.all.fa               # REQUIRED if -t Not Provided (Proteins File - Proteome)
        -t Homo_sapiens.GRCh38.cds.all.fa               # REQUIRED if -p Not Provided (Transcripts File - Transcriptome)
        -n 'Homo sapiens'                               # REQUIRED (Species Name)
-       -z TMPDIR Location                              # OPTIONAL (default=0='Normal Run')
+       -z TMPDIR Location                              # OPTIONAL (default=0='TMPDIR Run')
 
 TYPICAL COMMANDS:
                                    $(basename ${0}) -p Homo_sapiens.GRCh38.pep.all.fa -n 'Homo sapiens'
@@ -62,16 +62,18 @@ INPUT03_NOTES:                     The text should correspond to the species nam
 INPUT03_NOTES:                     If the text provided is composed on more than one word (e.g., Genus species), then the text must be within single or double quotes
 
 INPUT04:          -z FLAG          OPTIONAL input
-INPUT04_FORMAT:                    Numeric: 0 == Normal Run | 1 == TMPDIR Run
-INPUT04_DEFAULT:                   0 == Normal Run
-INPUT04_NOTES:                     0 Processes the data in the same directory where the script is being run
-INPUT04_NOTES:                     1 Processes the data in the $TMPDIR directory of the computer used or of the node assigned by the SuperComputer scheduler
-INPUT04_NOTES:                     Processing the data in the $TMPDIR directory of the node assigned by the SuperComputer scheduler reduces the possibility of file error generation due to network traffic
+INPUT04_FORMAT:                    Numeric: 0 == TMPDIR Run | 1 == Normal Run
+INPUT04_DEFAULT:                   0 == TMPDIR Run
+INPUT04_NOTES:                     0 Processes the data in the \$TMPDIR directory of the computer used or of the node assigned by the SuperComputer scheduler
+INPUT04_NOTES:                     Processing the data in the \$TMPDIR directory of the node assigned by the SuperComputer scheduler reduces the possibility of file error generation due to network traffic
+INPUT04_NOTES:                     1 Processes the data in the same directory where the script is being run
 
 DEPENDENCIES:                      GNU AWK:       Required (https://www.gnu.org/software/gawk/)
                                    GNU COREUTILS: Required (https://www.gnu.org/software/coreutils/)
                                    datamash:      Required (http://www.gnu.org/software/datamash)
                                    R:             Required (https://www.r-project.org/)
+                                   R - ggplot2:   Required (https://github.com/tidyverse/ggplot2)
+                                   R - ggeasy:    Required (https://github.com/jonocarroll/ggeasy)
                                                   Assumes that the packages tidyverse, ggplot2, and ggeasy are already installed
 
 $(func_authors)
@@ -80,13 +82,13 @@ EOF
 };
 
 ## Defining_Script_Current_Version
-version="1.0.0";
+version="1.0.2";
 
 ## Defining_Script_Initial_Version_Data (date '+DATE:%Y/%m/%d%tTIME:%R')
 version_date_initial="DATE:2022/11/21	TIME:13:13";
 
 ## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d%tTIME:%R')
-version_date_current="DATE:2023/03/05	TIME:12:26";
+version_date_current="DATE:2024/03/29	TIME:16:58";
 
 ## Testing_Script_Input
 ## Is the number of arguments null?
@@ -203,6 +205,14 @@ then
     var_tmp_dir="${var_tmp_dir:=0}";
 fi
 
+var_regex='^[0-1]+$'
+if ! [[ $var_tmp_dir =~ $var_regex ]];
+then
+    echo "Please provide a valid number (e.g., 0 or 1), for this variable";
+    func_usage;
+    exit 1;
+fi
+
 ## Generating Directories
 if [[ ! -d ./"${INFILE01%.fa}"_Fasta_Seq_Plot.dir ]];
 then
@@ -212,20 +222,6 @@ else
 fi
 ## Generating/Cleaning TMP Data Directory
 if [[ $var_tmp_dir -eq 0 ]];
-then
-    ## Defining Script TMP Data Directory
-    var_script_tmp_data_dir="$(pwd)/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
-    export var_script_tmp_data_dir="$(pwd)/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
-
-    if [[ ! -d $(basename "$var_script_tmp_data_dir") ]];
-    then
-        mkdir $(basename "$var_script_tmp_data_dir");
-    else
-        mv $(basename "$var_script_tmp_data_dir") $(basename "$var_script_tmp_data_dir"_$(date '+%Y_%m_%d_%R'));
-        mkdir $(basename "$var_script_tmp_data_dir");
-    fi
-fi
-if [[ $var_tmp_dir -eq 1 ]];
 then
     if [[ -d $(basename "$var_script_tmp_data_dir") ]];
     then
@@ -245,6 +241,21 @@ then
         var_script_tmp_data_dir="$TMP";
         export  var_script_tmp_data_dir="$TMP";
 
+    fi
+fi
+
+if [[ $var_tmp_dir -eq 1 ]];
+then
+    ## Defining Script TMP Data Directory
+    var_script_tmp_data_dir="$(pwd)/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
+    export var_script_tmp_data_dir="$(pwd)/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
+
+    if [[ ! -d $(basename "$var_script_tmp_data_dir") ]];
+    then
+        mkdir $(basename "$var_script_tmp_data_dir");
+    else
+        mv $(basename "$var_script_tmp_data_dir") $(basename "$var_script_tmp_data_dir"_$(date '+%Y_%m_%d_%R'));
+        mkdir $(basename "$var_script_tmp_data_dir");
     fi
 fi
 
