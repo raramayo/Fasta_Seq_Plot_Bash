@@ -62,8 +62,8 @@ DEPENDENCIES:                      GNU AWK:       Required (https://www.gnu.org/
                                    GNU COREUTILS: Required (https://www.gnu.org/software/coreutils/)
                                    datamash:      Required (http://www.gnu.org/software/datamash)
                                    R:             Required (https://www.r-project.org/)
-                                   R - ggplot2:   Required (https://github.com/tidyverse/ggplot2)
-                                   R - ggeasy:    Required (https://github.com/jonocarroll/ggeasy)
+                                   R - ggplot2    Required (https://github.com/tidyverse/ggplot2)
+                                   R - ggeasy     Required (https://github.com/jonocarroll/ggeasy)
                                                   Assumes that the packages tidyverse, ggplot2, and ggeasy are already installed
 
 Author:                            Rodolfo Aramayo
@@ -83,9 +83,9 @@ Codename:             Sonoma
 
 ```
 Distributor ID:       Ubuntu
-Description:	      Ubuntu 22.04.3 LTS
-Release:	          22.04
-Codename:	          jammy
+Description:          Ubuntu 22.04.3 LTS
+Release:              22.04
+Codename:             jammy
 ```
 
 ## Required Script Dependencies:
