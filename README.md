@@ -1,4 +1,4 @@
-**[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10896046.svg)](https://doi.org/10.5281/zenodo.10896046)**
+**[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10892498.svg)](https://doi.org/10.5281/zenodo.10892498)**
 # **Fasta_Seq_Plot_Bash**
 
 ## **Motivation**
