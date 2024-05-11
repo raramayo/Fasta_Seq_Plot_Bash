@@ -1,6 +1,6 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10892498.svg)](https://doi.org/10.5281/zenodo.10892498)
 # Fasta_Seq_Plot_Bash
-![alt text](./Images/Fasta_Seq_Plot_logo.png)
+![alt text](https://github.com/raramayo/Fasta_Seq_Plot_Bash/blob/main/Images/Fasta_Seq_Plot_logo.png)
 
 ## Motivation
 
@@ -9,7 +9,7 @@ generation of 'pdf' or 'png' image files depicting the size distribution of
 transcripts or proteins, excluding genomes, from fasta files.
 
 ## Example Output:
-![alt text](./Images/Fasta_Seq_Plot_Example_Output.png)
+![alt text](https://github.com/raramayo/Fasta_Seq_Plot_Bash/blob/main/Images/Fasta_Seq_Plot_Example_Output.png)
 
 ## Documentation
 
@@ -30,60 +30,77 @@ more details.
 You should have received a copy of the GNU General Public License along
 with this program. If not, see <https://www.gnu.org/licenses/>.
 
-SCRIPT_NAME:                       Fasta_Seq_Plot_v1.0.4.sh
-SCRIPT_VERSION:                    1.0.4
+SCRIPT_NAME:                    Fasta_Seq_Plot_v1.0.5.sh
+SCRIPT_VERSION:                 1.0.5
 
-USAGE: Fasta_Seq_Plot_v1.0.4.sh
-  -p Homo_sapiens.GRCh38.pep.all.fa  # REQUIRED (Proteins File)
-  -t Homo_sapiens.GRCh38.cds.all.fa  # REQUIRED (Transcripts File)
-  -n 'Homo sapiens'                  # REQUIRED (Species Name)
-  -z TMPDIR Location                 # OPTIONAL (default=0='TMPDIR Run')
+USAGE: Fasta_Seq_Plot_v1.0.5.sh
+ -p Proteins_Fasta_File.fa      # REQUIRED (Proteins File)
+                                 (if '-t' Not Provided)
+ -t Transcripts_Fasta_File.fa   # REQUIRED (Transcripts File)
+                                 (if '-p' Not Provided)
+ -n 'Homo sapiens'              # REQUIRED (Species Name)
+ -k 0                           # OPTIONAL (default=0='Do Not Print')
+ -z TMPDIR Location             # OPTIONAL (default=0='TMPDIR Run')
 
 TYPICAL COMMANDS:
-  Fasta_Seq_Plot_v1.0.4.sh -p Homo_sapiens.GRCh38.pep.all.fa -n 'Homo sapiens'
-  Fasta_Seq_Plot_v1.0.4.sh -t Homo_sapiens.GRCh38.cds.all.fa -n 'Homo sapiens'
+  Fasta_Seq_Plot_v1.0.5.sh -p Proteins_Fasta_File.fa -n 'Homo sapiens'
+  Fasta_Seq_Plot_v1.0.5.sh -t Transcripts_Fasta_File.fa -n 'Homo sapiens'
 
-INPUT01:          -p FLAG          REQUIRED input
-                                     ONLY if the '-t' flag associated file
-                                     is not provided
-INPUT01_FORMAT:                    Proteome Fasta File
-INPUT01_DEFAULT:                   No default
+INPUT01:          -p FLAG       REQUIRED input
+                                 ONLY if the '-t' flag associated file
+                                 is not provided
+INPUT01_FORMAT:                 Proteome Fasta File
+INPUT01_DEFAULT:                No default
 
-INPUT02:          -t FLAG          REQUIRED input
-                                     ONLY if the '-p' flag associated file
-                                     is not provided
-INPUT02_FORMAT:                    Transcriptome Fasta File
-INPUT02_DEFAULT:                   No default
+INPUT02:          -t FLAG       REQUIRED input
+                                 ONLY if the '-p' flag associated file
+                                 is not provided
+INPUT02_FORMAT:                 Transcriptome Fasta File
+INPUT02_DEFAULT:                No default
 
-INPUT03:          -n FLAG          REQUIRED input
-INPUT03_FORMAT:                    Text
-INPUT03_DEFAULT:                   None
+INPUT03:          -n FLAG       REQUIRED input
+INPUT03_FORMAT:                 Text
+INPUT03_DEFAULT:                None
 INPUT03_NOTES:
-  The text should correspond to the species name whose fasta file is being
-  analyzed.
-  If the text provided is composed on more than one word (e.g.,
-  Genus species), then the text must be within single or double quotes.
+ The text should correspond to the species name whose fasta file is being
+analyzed.
 
-INPUT04:          -z FLAG          OPTIONAL input
-INPUT04_FORMAT:                    Numeric: 0 == TMPDIR Run | 1 == Normal Run
-INPUT04_DEFAULT:                   0 == TMPDIR Run
+ If the text provided is composed on more than one word (e.g.,
+Genus species), then the text must be enclosed by single or double quotes.
+
+INPUT04:          -k FLAG       OPTIONAL input
+INPUT04_FORMAT:                 Numeric: '0' == 'Do Not Print' | '1' == 'Print'
+INPUT04_DEFAULT:                '0' == 'Do Not Print'
 INPUT04_NOTES:
-  '0' Processes the data in the $TMPDIR directory of the computer used or of
-  the node assigned by the SuperComputer scheduler.
-  Processing the data in the $TMPDIR directory of the node assigned by the
-  SuperComputer scheduler reduces the possibility of file error generation
-  due to network traffic.
-  '1' Processes the data in the same directory where the script is being run.
+ If this flag is activated (i.e., set to '1'), then, in addition to the
+sequence plots generated, a copy of the R Script files that were used to
+generate those figures will also be printed to the output directory.
+
+ In theory, these files could be modified (or not) and re-run in R, to
+re-generate the sequence plots.
+
+INPUT05:          -z FLAG       OPTIONAL input
+INPUT05_FORMAT:                 Numeric: '0' == TMPDIR Run | '1' == Local Run
+INPUT05_DEFAULT:                '0' == TMPDIR Run
+INPUT05_NOTES:
+ '0' Processes the data in the $TMPDIR directory of the computer used or of
+the node assigned by the SuperComputer scheduler.
+
+ Processing the data in the $TMPDIR directory of the node assigned by the
+SuperComputer scheduler reduces the possibility of file error generation
+due to network traffic.
+
+ '1' Processes the data in the same directory where the script is being run.
 
 DEPENDENCIES:
-  GNU AWK:       Required (https://www.gnu.org/software/gawk/)
-  GNU COREUTILS: Required (https://www.gnu.org/software/coreutils/)
-  datamash:      Required (http://www.gnu.org/software/datamash)
-  R:             Required (https://www.r-project.org/)
-                 Assumes that the packages tidyverse, ggplot2, and ggeasy
-                 are already installed
-  R - ggplot2:   Required (https://github.com/tidyverse/ggplot2)
-  R - ggeasy:    Required (https://github.com/jonocarroll/ggeasy)
+ GNU AWK:       Required (https://www.gnu.org/software/gawk/)
+ GNU COREUTILS: Required (https://www.gnu.org/software/coreutils/)
+ datamash:      Required (http://www.gnu.org/software/datamash)
+ R:             Required (https://www.r-project.org/)
+                Assumes that the packages tidyverse, ggplot2, and ggeasy
+                are already installed
+ R - ggplot2:   Required (https://github.com/tidyverse/ggplot2)
+ R - ggeasy:    Required (https://github.com/jonocarroll/ggeasy)
 
 
 Author:                            Rodolfo Aramayo
