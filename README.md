@@ -43,8 +43,8 @@ USAGE: Fasta_Seq_Plot_v1.0.5.sh
  -z TMPDIR Location             # OPTIONAL (default=0='TMPDIR Run')
 
 TYPICAL COMMANDS:
-  Fasta_Seq_Plot_v1.0.5.sh -p Proteins_Fasta_File.fa -n 'Homo sapiens'
-  Fasta_Seq_Plot_v1.0.5.sh -t Transcripts_Fasta_File.fa -n 'Homo sapiens'
+ Fasta_Seq_Plot_v1.0.5.sh -p Proteins_Fasta_File.fa -n 'Homo sapiens'
+ Fasta_Seq_Plot_v1.0.5.sh -t Transcripts_Fasta_File.fa -n 'Homo sapiens'
 
 INPUT01:          -p FLAG       REQUIRED input
                                  ONLY if the '-t' flag associated file

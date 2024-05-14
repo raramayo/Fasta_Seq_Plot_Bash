@@ -49,8 +49,8 @@ USAGE: $(basename ${0})
  -z TMPDIR Location             # OPTIONAL (default=0='TMPDIR Run')
 
 TYPICAL COMMANDS:
-  $(basename ${0}) -p Proteins_Fasta_File.fa -n 'Homo sapiens'
-  $(basename ${0}) -t Transcripts_Fasta_File.fa -n 'Homo sapiens'
+ $(basename ${0}) -p Proteins_Fasta_File.fa -n 'Homo sapiens'
+ $(basename ${0}) -t Transcripts_Fasta_File.fa -n 'Homo sapiens'
 
 INPUT01:          -p FLAG       REQUIRED input
                                  ONLY if the '-t' flag associated file
@@ -117,11 +117,11 @@ EOF
 ## Defining_Script_Current_Version
 version="1.0.5";
 
-## Defining_Script_Initial_Version_Data (date '+DATE:%Y/%m/%d%tTIME:%R')
-version_date_initial="DATE:2022/11/21	TIME:13:13";
+## Defining_Script_Initial_Version_Data (date '+DATE:%Y/%m/%d%')
+version_date_initial="DATE:2022/11/21";
 
-## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d%tTIME:%R')
-version_date_current="DATE:2024/05/11	TIME:15:21";
+## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d')
+version_date_current="DATE:2024/05/14";
 
 ## Testing_Script_Input
 ## Is the number of arguments null?
@@ -268,30 +268,31 @@ then
 fi
 
 ## Generating Directories
-var_script_out_data_dir="${INFILE01%.fa}_Fasta_Seq_Plot.dir";
+var_script_out_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.dir";
+export var_script_out_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.dir";
 
-if [[ ! -d ./${var_script_out_data_dir} ]];
+if [[ ! -d ${var_script_out_data_dir} ]];
 then
-    mkdir ./${var_script_out_data_dir};
+    mkdir ${var_script_out_data_dir};
 else
-    rm ./${var_script_out_data_dir}/* &>/dev/null;
+    rm ${var_script_out_data_dir}/* &>/dev/null;
 fi
 
-if [[ -d ./${INFILE01%.fa}_Fasta_Seq_Plot.tmp ]];
+if [[ -d ${INFILE01%.fa}_Fasta_Seq_Plot.tmp ]];
 then
-    rm -fr ./${INFILE01%.fa}_Fasta_Seq_Plot.tmp;
+    rm -fr ${INFILE01%.fa}_Fasta_Seq_Plot.tmp &>/dev/null;
 fi
 
 ## Generating/Cleaning TMP Data Directory
 if [[ ${tmp_dir} -eq 0 ]];
 then
     ## Defining Script TMP Data Directory
-    var_script_tmp_data_dir="$(pwd)/${INFILE01%.fa}_Fasta_Seq_Plot.tmp";
-    export var_script_tmp_data_dir="$(pwd)/${INFILE01%.fa}_Fasta_Seq_Plot.tmp";
+    var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
+    export var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
 
-    if [[ -d $(basename ${var_script_tmp_data_dir}) ]];
+    if [[ -d ${var_script_tmp_data_dir} ]];
     then
-        rm -fr $(basename ${var_script_tmp_data_dir});
+        rm -fr ${var_script_tmp_data_dir};
     fi
 
     if [[ -z ${TMPDIR} ]];
@@ -315,26 +316,26 @@ fi
 if [[ ${tmp_dir} -eq 1 ]];
 then
     ## Defining Script TMP Data Directory
-    var_script_tmp_data_dir="$(pwd)/${INFILE01%.fa}_Fasta_Seq_Plot.tmp";
-    export var_script_tmp_data_dir="$(pwd)/${INFILE01%.fa}_Fasta_Seq_Plot.tmp";
+    var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
+    export var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
 
-    if [[ ! -d $(basename ${var_script_tmp_data_dir}) ]];
+    if [[ ! -d ${var_script_tmp_data_dir} ]];
     then
-        mkdir $(basename ${var_script_tmp_data_dir});
+        mkdir ${var_script_tmp_data_dir};
     else
-        rm -fr $(basename ${var_script_tmp_data_dir});
-        mkdir $(basename ${var_script_tmp_data_dir});
+        rm -fr ${var_script_tmp_data_dir};
+        mkdir ${var_script_tmp_data_dir};
     fi
 fi
 
 ## Initializing_Log_File
 time_execution_start=$(date +%s);
 echo -e "Starting Processing on: "$(date)"" \
-     > ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+     > ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 
 ## Verifying_Software_Dependency_Existence
 echo -e "Verifying Software Dependency Existence on: "$(date)"" \
-     >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+     >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 ## Determining_Current_Computer_Platform
 osname=$(uname -s);
 cputype=$(uname -m);
@@ -348,81 +349,90 @@ esac
 ## Determining_GNU_Bash_Version
 if [[ ${BASH_VERSINFO:-0} -ge 4 ]];
 then
-    echo "GNU_BASH version 4 or higher is Installed" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    echo "GNU_BASH version "${BASH_VERSINFO}" is Installed" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo "GNU_BASH version 4 or higher is Not Installed";
     echo "Please Install GNU_BASH version 4 or higher";
-    rm -fr ./${var_script_out_data_dir};
+    rm -fr ${var_script_out_data_dir};
     rm -fr ${var_script_tmp_data_dir};
     func_usage;
     exit 1;
 fi
 ## Testing_GNU_Awk_Installation
 type gawk &> /dev/null;
-var_sde=$(echo $?);
+var_sde=$(echo ${?});
 if [[ ${var_sde} -eq 0 ]];
 then
-    echo "GNU_AWK is Installed" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    echo "GNU_AWK is Installed" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo "GNU_AWK is Not Installed";
     echo "Please Install GNU_AWK";
-    rm -fr ./${var_script_out_data_dir};
+    rm -fr ${var_script_out_data_dir};
     rm -fr ${var_script_tmp_data_dir};
     func_usage;
     exit 1;
 fi
 ## Testing_DATAMASH_Installation
 type datamash &> /dev/null;
-var_sde=$(echo $?);
+var_sde=$(echo ${?});
 if [[ ${var_sde} -eq 0 ]];
 then
-    echo "datamash is Installed" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    echo "datamash is Installed" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo "DATAMASH is Not Installed";
     echo "Please Install DATAMASH";
-    rm -fr ./${var_script_out_data_dir};
+    rm -fr ${var_script_out_data_dir};
     rm -fr ${var_script_tmp_data_dir};
     func_usage;
     exit 1;
 fi
 ## Testing_Rscript_Installation
 type Rscript &> /dev/null;
-var_sde=$(echo $?);
+var_sde=$(echo ${?});
 if [[ ${var_sde} -eq 0 ]];
 then
-    echo "R is Installed" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    echo "R is Installed" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo "R is Not Installed";
     echo "Please Install R";
-    rm -fr ./${var_script_out_data_dir};
+    rm -fr ${var_script_out_data_dir};
     rm -fr ${var_script_tmp_data_dir};
     func_usage;
     exit 1;
 fi
 
-echo -e "Software Dependencies Verified on: "$(date)"\n" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
-echo -e "Script Running on: "${osname}", "${cputype}"\n" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+echo -e "Software Dependencies Verified on: "$(date)"\n" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+echo -e "Script Running on: "${osname}", "${cputype}"\n" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 
 ## set LC_ALL to "C"
 export LC_ALL="C";
 
 ## START
-echo -e "Script Name: $(basename ${0})\n" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
-
-echo -e "Command Issued Was:" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+echo -e "Command Issued Was:" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+echo -e "\tScript Name:\t$(basename ${0})" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 
 if [[ ${var_INFILE01} == "proteins_file" ]];
 then
-    echo -e "\tFile Type: Proteome" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    echo -e "\t-p Flag:\tProteome" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
-    echo -e "\tFile Type: Transcriptome" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    echo -e "\t-t Flag:\tTranscriptome" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+fi
+
+echo -e "\t-n Flag:\t"${species_name}"" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+
+
+if [[ ${keep_r_files} -eq 0 ]];
+then
+    echo -e "\t-k Flag:\tRScript Files Not Requested" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+else
+    echo -e "\t-z Flag:\tRScript Files Requested" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 fi
 
 if [[ ${tmp_dir} -eq 0 ]];
 then
-    echo -e "\t-z Flag: TMPDIR Requested: \$TMPDIR Directory" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    echo -e "\t-z Flag:\t\$TMPDIR Directory Requested" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
-    echo -e "\t-z Flag: TMPDIR Requested: Local Directory" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    echo -e "\t-z Flag:\tLocal Directory Requested" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 fi
 
 echo -e "#Identifier\tLength" > ${var_script_tmp_data_dir}/0001_${INFILE01%.fa};
@@ -651,23 +661,23 @@ dev.off()
 
     R --vanilla < ${var_script_tmp_data_dir}/0008_File.R &> ${var_script_tmp_data_dir}/0008_File.R.log;
 
-    echo -e "\n${species_name} Fasta Statistics:\n" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    echo -e "\n${species_name} Fasta Statistics:\n" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 
-    cat ${var_script_tmp_data_dir}/0008_summary_02 >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    cat ${var_script_tmp_data_dir}/0008_summary_02 >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_01.pdf ./${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_01.pdf;
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_02.pdf ./${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_02.pdf;
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_03.pdf ./${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_03.pdf;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_01.pdf ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_01.pdf;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_02.pdf ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_02.pdf;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_03.pdf ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_03.pdf;
 
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_01.png ./${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_01.png;
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_02.png ./${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_02.png;
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_03.png ./${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_03.png;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_01.png ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_01.png;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_02.png ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_02.png;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_03.png ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_03.png;
 
     if [[ ${keep_r_files} -eq 1 ]];
     then
-	cp ${var_script_tmp_data_dir}/0006_File.R ./${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_01.R;
-	cp ${var_script_tmp_data_dir}/0007_File.R ./${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_02.R;
-	cp ${var_script_tmp_data_dir}/0008_File.R ./${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_03.R;
+	cp ${var_script_tmp_data_dir}/0006_File.R ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_01.R;
+	cp ${var_script_tmp_data_dir}/0007_File.R ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_02.R;
+	cp ${var_script_tmp_data_dir}/0008_File.R ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_03.R;
     fi
 else
     echo -e "\
@@ -838,23 +848,23 @@ dev.off()
 
     R --vanilla < ${var_script_tmp_data_dir}/0008_File.R &> ${var_script_tmp_data_dir}/0008_File.R.log;
 
-    echo -e "\n${species_name} Fasta Statistics:\n" >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    echo -e "\n${species_name} Fasta Statistics:\n" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 
-    cat ${var_script_tmp_data_dir}/0008_summary_02 >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+    cat ${var_script_tmp_data_dir}/0008_summary_02 >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_01.pdf ./${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_01.pdf;
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_02.pdf ./${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_02.pdf;
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_03.pdf ./${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_03.pdf;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_01.pdf ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_01.pdf;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_02.pdf ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_02.pdf;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_03.pdf ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_03.pdf;
 
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_01.png ./${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_01.png;
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_02.png ./${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_02.png;
-    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_03.png ./${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_03.png;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_01.png ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_01.png;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_02.png ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_02.png;
+    cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_03.png ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_03.png;
 
     if [[ ${keep_r_files} -eq 1 ]];
     then
-	cp ${var_script_tmp_data_dir}/0006_File.R ./${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_01.R;
-	cp ${var_script_tmp_data_dir}/0007_File.R ./${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_02.R;
-	cp ${var_script_tmp_data_dir}/0008_File.R ./${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_03.R;
+	cp ${var_script_tmp_data_dir}/0006_File.R ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_01.R;
+	cp ${var_script_tmp_data_dir}/0007_File.R ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_02.R;
+	cp ${var_script_tmp_data_dir}/0008_File.R ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_03.R;
     fi
 fi
 
@@ -862,12 +872,12 @@ rm -fr ${var_script_tmp_data_dir};
 
 time_execution_stop=$(date +%s);
 echo -e "\nFinishing Processing on: "$(date)"" \
-     >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+     >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 echo -e "Script Runtime (sec): $(echo "${time_execution_stop}"-"${time_execution_start}"|bc -l) seconds" \
-     >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+     >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 echo -e "Script Runtime (min): $(echo "scale=2;(${time_execution_stop}"-"${time_execution_start})/60"|bc -l) minutes" \
-     >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+     >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 echo -e "Script Runtime (hs): $(echo "scale=2;((${time_execution_stop}"-"${time_execution_start})/60)/60"|bc -l) hours" \
-     >> ./${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
+     >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 
 exit 0
