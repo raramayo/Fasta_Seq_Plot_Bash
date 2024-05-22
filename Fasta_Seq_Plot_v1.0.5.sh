@@ -125,15 +125,13 @@ version_date_current="DATE:2024/05/14";
 
 ## Testing_Script_Input
 ## Is the number of arguments null?
-if [[ ${#} -eq 0 ]];
-then
+if [[ ${#} -eq 0 ]];then
     echo -e "\nPlease enter required arguments";
     func_usage;
     exit 1;
 fi
 
-while true;
-do
+while true;do
     case ${1} in
         -h|--h|-help|--help|-\?|--\?)
             func_usage;
@@ -187,15 +185,13 @@ do
 done
 
 ## Processing: -p and -t Flags
-if [[ ! -z ${proteinsfile} ]];
-then
+if [[ ! -z ${proteinsfile} ]];then
     INFILE01=${proteinsfile};
     var_INFILE01="proteins_file";
 else
     var_INFILE01="transcripts_file";
 fi
-if [[ ${var_INFILE01} == "proteins_file" ]];
-then
+if [[ ${var_INFILE01} == "proteins_file" ]];then
     if [[ ! -f ${proteinsfile} ]];
     then
 	echo "Please provide a proteome fasta file";
@@ -203,24 +199,20 @@ then
 	exit 1;
     fi
 fi
-if [[ ! -z ${transcriptsfile} ]];
-then
+if [[ ! -z ${transcriptsfile} ]];then
     INFILE01=${transcriptsfile};
     var_INFILE01="transcripts_file";
 else
     var_INFILE01="proteins_file";
 fi
-if [[ ${var_INFILE01} == "transcripts_file" ]];
-then
-    if [[ ! -f ${transcriptsfile} ]];
-    then
+if [[ ${var_INFILE01} == "transcripts_file" ]];then
+    if [[ ! -f ${transcriptsfile} ]];then
 	echo "Please provide a transcriptome fasta file";
 	func_usage;
 	exit 1;
     fi
 fi
-if [[ ! -z ${proteinsfile} && ! -z ${transcriptsfile} ]];
-then
+if [[ ! -z ${proteinsfile} && ! -z ${transcriptsfile} ]];then
     echo -e "\nPlease provide either a protein of a transcript file, but not both";
     func_usage;
     exit 1;
@@ -228,8 +220,7 @@ fi
 
 ## Processing: -n Flag
 ## Assigning Species Name
-if [[ -z ${species_name} ]];
-then
+if [[ -z ${species_name} ]];then
     echo -e "\nPlease provide a species name";
     func_usage;
     exit 1;
@@ -237,16 +228,14 @@ fi
 
 ## Processing: -k Flag
 ## Evaluating_Keeping_R_Files
-if [[ -z ${keep_r_files} ]];
-then
+if [[ -z ${keep_r_files} ]];then
     keep_r_files=${keep_r_files:=0};
 else
     keep_r_files=${keep_r_files:=1};
 fi
 
 var_regex="^[0-1]+$"
-if ! [[ ${keep_r_files} =~ ${var_regex} ]];
-then
+if ! [[ ${keep_r_files} =~ ${var_regex} ]];then
     echo "Please provide a valid number (e.g., 0 or 1), for this variable";
     func_usage;
     exit 1;
@@ -254,14 +243,12 @@ fi
 
 ## Processing '-z' Flag
 ## Determining Where The TMPDIR Will Be Generated
-if [[ -z ${tmp_dir} ]];
-then
+if [[ -z ${tmp_dir} ]];then
     tmp_dir=${tmp_dir:=0};
 fi
 
 var_regex="^[0-1]+$"
-if ! [[ ${tmp_dir} =~ ${var_regex} ]];
-then
+if ! [[ ${tmp_dir} =~ ${var_regex} ]];then
     echo "Please provide a valid number (e.g., 0 or 1), for this variable";
     func_usage;
     exit 1;
@@ -271,56 +258,47 @@ fi
 var_script_out_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.dir";
 export var_script_out_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.dir";
 
-if [[ ! -d ${var_script_out_data_dir} ]];
-then
+if [[ ! -d ${var_script_out_data_dir} ]];then
     mkdir ${var_script_out_data_dir};
 else
     rm ${var_script_out_data_dir}/* &>/dev/null;
 fi
 
-if [[ -d ${INFILE01%.fa}_Fasta_Seq_Plot.tmp ]];
-then
+if [[ -d ${INFILE01%.fa}_Fasta_Seq_Plot.tmp ]];then
     rm -fr ${INFILE01%.fa}_Fasta_Seq_Plot.tmp &>/dev/null;
 fi
 
 ## Generating/Cleaning TMP Data Directory
-if [[ ${tmp_dir} -eq 0 ]];
-then
+if [[ ${tmp_dir} -eq 0 ]];then
     ## Defining Script TMP Data Directory
     var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
     export var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
 
-    if [[ -d ${var_script_tmp_data_dir} ]];
-    then
+    if [[ -d ${var_script_tmp_data_dir} ]];then
         rm -fr ${var_script_tmp_data_dir};
     fi
 
-    if [[ -z ${TMPDIR} ]];
-    then
+    if [[ -z ${TMPDIR} ]];then
         ## echo "TMPDIR not defined";
         TMP=$(mktemp -d -p ${TMP}); ## &> /dev/null);
         var_script_tmp_data_dir=${TMP};
         export  var_script_tmp_data_dir=${TMP};
     fi
 
-    if [[ ! -z ${TMPDIR} ]];
-    then
+    if [[ ! -z ${TMPDIR} ]];then
         ## echo "TMPDIR defined";
         TMP=$(mktemp -d -p ${TMPDIR}); ## &> /dev/null);
         var_script_tmp_data_dir=${TMP};
         export  var_script_tmp_data_dir=${TMP};
-
     fi
 fi
 
-if [[ ${tmp_dir} -eq 1 ]];
-then
+if [[ ${tmp_dir} -eq 1 ]];then
     ## Defining Script TMP Data Directory
     var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
     export var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
 
-    if [[ ! -d ${var_script_tmp_data_dir} ]];
-    then
+    if [[ ! -d ${var_script_tmp_data_dir} ]];then
         mkdir ${var_script_tmp_data_dir};
     else
         rm -fr ${var_script_tmp_data_dir};
@@ -347,8 +325,7 @@ case "${osname}"-"${cputype}" in
     Linux-*arm* )            plt=ARM ;;
 esac
 ## Determining_GNU_Bash_Version
-if [[ ${BASH_VERSINFO:-0} -ge 4 ]];
-then
+if [[ ${BASH_VERSINFO:-0} -ge 4 ]];then
     echo "GNU_BASH version "${BASH_VERSINFO}" is Installed" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo "GNU_BASH version 4 or higher is Not Installed";
@@ -361,8 +338,7 @@ fi
 ## Testing_GNU_Awk_Installation
 type gawk &> /dev/null;
 var_sde=$(echo ${?});
-if [[ ${var_sde} -eq 0 ]];
-then
+if [[ ${var_sde} -eq 0 ]];then
     echo "GNU_AWK is Installed" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo "GNU_AWK is Not Installed";
@@ -375,8 +351,7 @@ fi
 ## Testing_DATAMASH_Installation
 type datamash &> /dev/null;
 var_sde=$(echo ${?});
-if [[ ${var_sde} -eq 0 ]];
-then
+if [[ ${var_sde} -eq 0 ]];then
     echo "datamash is Installed" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo "DATAMASH is Not Installed";
@@ -389,8 +364,7 @@ fi
 ## Testing_Rscript_Installation
 type Rscript &> /dev/null;
 var_sde=$(echo ${?});
-if [[ ${var_sde} -eq 0 ]];
-then
+if [[ ${var_sde} -eq 0 ]];then
     echo "R is Installed" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo "R is Not Installed";
@@ -411,8 +385,7 @@ export LC_ALL="C";
 echo -e "Command Issued Was:" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 echo -e "\tScript Name:\t$(basename ${0})" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 
-if [[ ${var_INFILE01} == "proteins_file" ]];
-then
+if [[ ${var_INFILE01} == "proteins_file" ]];then
     echo -e "\t-p Flag:\tProteome" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo -e "\t-t Flag:\tTranscriptome" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
@@ -421,15 +394,13 @@ fi
 echo -e "\t-n Flag:\t"${species_name}"" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 
 
-if [[ ${keep_r_files} -eq 0 ]];
-then
+if [[ ${keep_r_files} -eq 0 ]];then
     echo -e "\t-k Flag:\tRScript Files Not Requested" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo -e "\t-z Flag:\tRScript Files Requested" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 fi
 
-if [[ ${tmp_dir} -eq 0 ]];
-then
+if [[ ${tmp_dir} -eq 0 ]];then
     echo -e "\t-z Flag:\t\$TMPDIR Directory Requested" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
 else
     echo -e "\t-z Flag:\tLocal Directory Requested" >> ${var_script_out_data_dir}/${INFILE01%.fa}_Fasta_Seq_Plot.log;
@@ -468,13 +439,11 @@ readarray -t lines < ${var_script_tmp_data_dir}/0002_File;
 var_counter="1";
 var_record_number=$(awk 'END{print NR}' ${var_script_tmp_data_dir}/0002_File);
 
-for i in "${lines[@]}";
-do
+for i in "${lines[@]}";do
     var_field_01=$(echo $i | awk '{print $1}');
     var_field_02=$(echo $i | awk '{print $2}');
 
-    if [[ ${var_counter} -ne ${var_record_number} ]];
-    then
+    if [[ ${var_counter} -ne ${var_record_number} ]];then
 	echo -n "${var_field_01}," >> ${var_script_tmp_data_dir}/0003_File;
 	echo -n "\"${var_field_01}-${var_field_02}\"," >> ${var_script_tmp_data_dir}/0004_File;
 	echo -n "Length < ${var_field_02} ~ tags[${var_counter}], " >> ${var_script_tmp_data_dir}/0005_File;
@@ -491,8 +460,7 @@ readarray -t breaks < ${var_script_tmp_data_dir}/0003_File;
 readarray -t tags < ${var_script_tmp_data_dir}/0004_File;
 readarray -t lengths < ${var_script_tmp_data_dir}/0005_File;
 
-if [[ ${var_INFILE01} == "proteins_file" ]];
-then
+if [[ ${var_INFILE01} == "proteins_file" ]];then
     echo -e "\
 #!/usr/bin/env R
 
@@ -673,8 +641,7 @@ dev.off()
     cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_02.png ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_02.png;
     cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_03.png ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_03.png;
 
-    if [[ ${keep_r_files} -eq 1 ]];
-    then
+    if [[ ${keep_r_files} -eq 1 ]];then
 	cp ${var_script_tmp_data_dir}/0006_File.R ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_01.R;
 	cp ${var_script_tmp_data_dir}/0007_File.R ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_02.R;
 	cp ${var_script_tmp_data_dir}/0008_File.R ${var_script_out_data_dir}/${INFILE01}_Proteome_Fasta_Seq_Plot_03.R;
