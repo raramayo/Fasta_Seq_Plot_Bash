@@ -121,7 +121,7 @@ version="1.0.5";
 version_date_initial="DATE:2022/11/21";
 
 ## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d')
-version_date_current="DATE:2024/05/14";
+version_date_current="DATE:2024/05/23";
 
 ## Testing_Script_Input
 ## Is the number of arguments null?
