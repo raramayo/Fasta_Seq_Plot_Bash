@@ -121,10 +121,10 @@ version="1.0.5";
 version_date_initial="DATE:2022/11/21";
 
 ## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d')
-version_date_current="DATE:2024/05/23";
+version_date_current="DATE:2024/05/29";
 
 ## Testing_Script_Input
-## Is the number of arguments null?
+## Is_the_number_of_arguments_null?
 if [[ ${#} -eq 0 ]];then
     echo -e "\nPlease enter required arguments";
     func_usage;
@@ -219,7 +219,7 @@ if [[ ! -z ${proteinsfile} && ! -z ${transcriptsfile} ]];then
 fi
 
 ## Processing: -n Flag
-## Assigning Species Name
+## Assigning_Species_Name
 if [[ -z ${species_name} ]];then
     echo -e "\nPlease provide a species name";
     func_usage;
@@ -242,7 +242,7 @@ if ! [[ ${keep_r_files} =~ ${var_regex} ]];then
 fi
 
 ## Processing '-z' Flag
-## Determining Where The TMPDIR Will Be Generated
+## Determining_Where_The_TMPDIR_Will_Be_Generated
 if [[ -z ${tmp_dir} ]];then
     tmp_dir=${tmp_dir:=0};
 fi
@@ -254,7 +254,7 @@ if ! [[ ${tmp_dir} =~ ${var_regex} ]];then
     exit 1;
 fi
 
-## Generating Directories
+## Generating_Directories
 var_script_out_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.dir";
 export var_script_out_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.dir";
 
@@ -268,9 +268,9 @@ if [[ -d ${INFILE01%.fa}_Fasta_Seq_Plot.tmp ]];then
     rm -fr ${INFILE01%.fa}_Fasta_Seq_Plot.tmp &>/dev/null;
 fi
 
-## Generating/Cleaning TMP Data Directory
+## Generating/Cleaning_TMP_Data_Directory
 if [[ ${tmp_dir} -eq 0 ]];then
-    ## Defining Script TMP Data Directory
+    ## Defining_Script_TMP_Data_Directory
     var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
     export var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
 
@@ -294,7 +294,7 @@ if [[ ${tmp_dir} -eq 0 ]];then
 fi
 
 if [[ ${tmp_dir} -eq 1 ]];then
-    ## Defining Script TMP Data Directory
+    ## Defining_Script_TMP_Data_Directory
     var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
     export var_script_tmp_data_dir=""$(pwd)"/"${INFILE01%.fa}"_Fasta_Seq_Plot.tmp";
 
@@ -408,7 +408,7 @@ fi
 
 echo -e "#Identifier\tLength" > ${var_script_tmp_data_dir}/0001_${INFILE01%.fa};
 
-## Convert 'spaces' (040) to '=' (075)
+## Convert_'spaces'_(040)_to_'='_(075)
 awk -F "\t" -v OFS="\t" '{gsub(/\040/,"\075",$1);print $0}' "$INFILE01" | \
     awk -F "\t" -v OFS="\t" 'BEGIN{RS=">"}NR>1{sub("\n","\t"); gsub("\n",""); print RS$0 "\t" length($(NF))}' | \
     awk -F "\t" -v OFS="\t" '{gsub(/\075/,"\040");print $1 "\t" $NF}' | \
@@ -427,7 +427,6 @@ var_median_iqr_4=$(( ${var_median_iqr%.*} * 4 ))
 
 var_max=$(datamash --header-in max 2 < ${var_script_tmp_data_dir}/0001_${INFILE01%.fa} );
 
-## var_column_A="${var_min%.*} ${var_q1%.*} ${var_median%.*} ${var_q3%.*} ${var_median_iqr%.*} ${var_median_iqr_2%.*} ${var_median_iqr_4%.*}"; ## Rejected x labels
 var_column_A="${var_min%.*} $((${var_q1%.*}+1)) $((${var_median%.*}+1)) $((${var_q3%.*}+1)) $((${var_median_iqr%.*}+1)) $((${var_median_iqr_2%.*}+1)) $((${var_median_iqr_4%.*}+1))";
 
 var_column_B="${var_q1%.*} ${var_median%.*} ${var_q3%.*} ${var_median_iqr%.*} ${var_median_iqr_2%.*} ${var_median_iqr_4%.*} ${var_max%.*}";
@@ -827,8 +826,7 @@ dev.off()
     cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_02.png ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_02.png;
     cp ${var_script_tmp_data_dir}/${INFILE01}_Fasta_Seq_Plot_03.png ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_03.png;
 
-    if [[ ${keep_r_files} -eq 1 ]];
-    then
+    if [[ ${keep_r_files} -eq 1 ]];then
 	cp ${var_script_tmp_data_dir}/0006_File.R ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_01.R;
 	cp ${var_script_tmp_data_dir}/0007_File.R ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_02.R;
 	cp ${var_script_tmp_data_dir}/0008_File.R ${var_script_out_data_dir}/${INFILE01}_Transcriptome_Fasta_Seq_Plot_03.R;
