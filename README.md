@@ -30,10 +30,10 @@ more details.
 You should have received a copy of the GNU General Public License along
 with this program. If not, see <https://www.gnu.org/licenses/>.
 
-SCRIPT_NAME:                    Fasta_Seq_Plot_v1.0.5.sh
-SCRIPT_VERSION:                 1.0.5
+SCRIPT_NAME:                    Fasta_Seq_Plot_v1.0.6.sh
+SCRIPT_VERSION:                 1.0.6
 
-USAGE: Fasta_Seq_Plot_v1.0.5.sh
+USAGE: Fasta_Seq_Plot_v1.0.6.sh
  -p Proteins_Fasta_File.fa      # REQUIRED (Proteins File)
                                  (if '-t' Not Provided)
  -t Transcripts_Fasta_File.fa   # REQUIRED (Transcripts File)
@@ -43,8 +43,8 @@ USAGE: Fasta_Seq_Plot_v1.0.5.sh
  -z TMPDIR Location             # OPTIONAL (default=0='TMPDIR Run')
 
 TYPICAL COMMANDS:
- Fasta_Seq_Plot_v1.0.5.sh -p Proteins_Fasta_File.fa -n 'Homo sapiens'
- Fasta_Seq_Plot_v1.0.5.sh -t Transcripts_Fasta_File.fa -n 'Homo sapiens'
+ Fasta_Seq_Plot_v1.0.6.sh -p Proteins_Fasta_File.fa -n 'Homo sapiens'
+ Fasta_Seq_Plot_v1.0.6.sh -t Transcripts_Fasta_File.fa -n 'Homo sapiens'
 
 INPUT01:          -p FLAG       REQUIRED input
                                  ONLY if the '-t' flag associated file
