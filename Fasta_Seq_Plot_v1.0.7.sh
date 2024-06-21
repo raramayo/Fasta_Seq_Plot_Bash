@@ -4,6 +4,8 @@ func_copyright ()
 {
     cat <<COPYRIGHT
 
+Copyright (C) 2024 Rodolfo Aramayo
+
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
 Software Foundation, either version 3 of the License, or (at your option)
@@ -110,18 +112,21 @@ DEPENDENCIES:
 
 
 $(func_authors)
+
+Repository: https://github.com/raramayo/Fasta_Seq_Plot_Bash
+Issues:     https://github.com/raramayo/Fasta_Seq_Plot_Bash/issues
 ###########################################################################
 EOF
 };
 
 ## Defining_Script_Current_Version
-version="1.0.6";
+version="1.0.7";
 
 ## Defining_Script_Initial_Version_Data (date '+DATE:%Y/%m/%d%')
 version_date_initial="DATE:2022/11/21";
 
 ## Defining_Script_Current_Version_Data (date '+DATE:%Y/%m/%d')
-version_date_current="DATE:2024/06/20";
+version_date_current="DATE:2024/06/21";
 
 ## Testing_Script_Input
 ## Is_the_number_of_arguments_null?
@@ -271,20 +276,20 @@ fi
 ## Generating/Cleaning_TMP_Data_Directory
 if [[ ${tmp_dir} -eq 0 ]]; then
     ## Defining Script TMP Data Directory
-    var_script_tmp_data_dir="$(pwd)/${INFILE01%.fa}_Fasta_Seq_Plot.tmp"
-    export var_script_tmp_data_dir
+    var_script_tmp_data_dir="$(pwd)/${INFILE01%.fa}_Fasta_Seq_Plot.tmp";
+    export var_script_tmp_data_dir;
 
-    if [[ -d ${var_script_tmp_data_dir} ]]; then
-        rm -fr ${var_script_tmp_data_dir}
+    if [[ -d ${var_script_tmp_data_dir} ]];then
+        rm -fr ${var_script_tmp_data_dir};
     fi
 
-    if [[ -z ${TMPDIR} ]]; then
-        TMPDIR=$(mktemp -d -t tmp.XXXXXX)
+    if [[ -z ${TMPDIR} ]];then
+        TMPDIR=$(mktemp -d -t tmp.XXXXXX);
     fi
 
-    TMP=$(mktemp -d -p ${TMPDIR} tmp.XXXXXX)
-    var_script_tmp_data_dir=${TMP}
-    export var_script_tmp_data_dir
+    TMP=$(mktemp -d -p ${TMPDIR} tmp.XXXXXX);
+    var_script_tmp_data_dir=${TMP};
+    export var_script_tmp_data_dir;
 fi
 
 if [[ ${tmp_dir} -eq 1 ]];then
